@@ -5,6 +5,9 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  updateProfile,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -22,14 +25,17 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 //SIGN-IN NEW USER = REGISTER
-export const createUser = async (email, password, navigate) => {
+export const createUser = async (email, password, navigate, displayName) => {
   try {
     let userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    console.log(userCredential);
+    // console.log(userCredential);
+    await updateProfile(auth.currentUser, {
+      displayName: displayName,
+    });
     navigate("/");
   } catch (error) {
     alert(error);
@@ -59,7 +65,20 @@ export const userObserver = (setCurrentUser) => {
     }
   });
 };
-
+// Sign Out
 export const logOut = () => {
   signOut(auth);
+};
+//LOGIN WİTH GOOGLE
+export const signUpProvider = (navigate) => {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      console.log(result);
+      console.log("Logged out succesfully!");
+      navigate("/");
+    })
+    .catch((error) => {
+      alert(error);
+    });
 };

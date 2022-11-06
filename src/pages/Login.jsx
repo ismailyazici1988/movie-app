@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../auth/firebase";
+import { signIn, signUpProvider } from "../auth/firebase";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -12,6 +12,10 @@ const Login = () => {
     e.preventDefault();
     // console.log(email, password);
     signIn(email, password, navigate);
+  };
+
+  const handleProvider = () => {
+    signUpProvider(navigate);
   };
   return (
     <div>
@@ -54,7 +58,12 @@ const Login = () => {
               value="Login"
             />
           </div>
-          <div className="btn btn-dark form-control">Continue with Google</div>
+          <div
+            className="btn btn-dark form-control"
+            onClick={() => handleProvider()}
+          >
+            Login with Google
+          </div>
         </form>
       </div>
     </div>
