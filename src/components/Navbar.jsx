@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContextProvider";
+import { logOut } from "../auth/firebase";
 
 const Navbar = () => {
   const navigate = useNavigate();
   //   const currentUser = { displayName: "Mark Madison" };
-  const currentUser = false;
+  // const currentUser = false;
+  const { currentUser } = useContext(AuthContext);
   return (
     <div>
       <div className="navbar navbar-expand-lg">
@@ -16,7 +19,12 @@ const Navbar = () => {
             {currentUser ? (
               <>
                 <h5 className="mb-0">{currentUser.displayName}</h5>
-                <button className="ms-2 btn btn-outline-dark">Logout</button>
+                <button
+                  onClick={() => logOut()}
+                  className="ms-2 btn btn-outline-dark"
+                >
+                  Logout
+                </button>
               </>
             ) : (
               <>

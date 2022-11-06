@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { createUser } from "../auth/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [firstName, setFirstName] = useState();
@@ -7,16 +9,20 @@ const Register = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(firstName, lastName);
+    createUser(email, password, navigate);
+    // console.log(firstName, lastName);
+    // navigate("/");
   };
   return (
     <div className="d-flex justify-content-center">
       <div className="form-image d-none d-lg-block">
         <img src={"https://picsum.photos/800/800"} alt="sample-movie" />
       </div>
-      <form onSubmit={handleSubmit} className="register-form">
+      <form id="register" onSubmit={handleSubmit} className="register-form">
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">
             First Name
